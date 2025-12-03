@@ -1,9 +1,19 @@
-import { useState } from "react";
-import cafeData from '../__fixtures__/cafes.js';
+import { useEffect ,useState } from "react";
+// import cafeData from '../__fixtures__/cafes.js';
 import FilterCafes from "./FilterCafes.jsx";
 
 export default function CafesTable() {
-    const cafesPoints = cafeData.cafes;
+    // const cafesPoints = cafeData.cafes;
+    const [cafes, setCafes] = useState([]);
+
+    useEffect(() => {
+        fetch('/cafes')
+            .then(res => res.json())
+            .then(data => setCafes(data.cafes || []))
+            .catch(err => {
+                console.error('Failed to fetch cafes:', err);
+            });
+    }, []);
 
     return (
         <div id="container" className="container m-3">
@@ -12,7 +22,7 @@ export default function CafesTable() {
 			        <FilterCafes />
 		        </div>
                 <ul className="cardsList">
-                    {cafesPoints.map(cafe => (
+                    {cafes.map(cafe => (
                         <li key={cafe.id} className="card">
                             <img
                                 src={cafe.img !== '' ? cafe.img : 'https://via.placeholder.com/150'}
