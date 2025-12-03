@@ -1,10 +1,9 @@
-import { useEffect ,useState } from "react";
-// import cafeData from '../__fixtures__/cafes.js';
+import { useEffect, useState } from "react";
 import FilterCafes from "./FilterCafes.jsx";
 
 export default function CafesTable() {
-    // const cafesPoints = cafeData.cafes;
     const [cafes, setCafes] = useState([]);
+    const [selectedSubway, setSelectedSubway] = useState("All");
 
     useEffect(() => {
         fetch('/cafes')
@@ -12,20 +11,28 @@ export default function CafesTable() {
             .then(data => setCafes(data.cafes || []))
             .catch(err => {
                 console.error('Failed to fetch cafes:', err);
-            });
+        });
     }, []);
+
+    const filteredCafes = selectedSubway === "All"
+        ? cafes
+        : cafes.filter(cafe => cafe.subwayCode === selectedSubway);
+
+    const handleFilterChange = (value) => {
+        setSelectedSubway(value);
+    };
 
     return (
         <div id="container" className="container m-3">
             <div className="cafesTable">
-                <div class="controls">
-			        <FilterCafes />
-		        </div>
+                <div className="controls">
+                    <FilterCafes value={selectedSubway} onChange={handleFilterChange} />
+                </div>
                 <ul className="cardsList">
-                    {cafes.map(cafe => (
+                    {filteredCafes.map(cafe => (
                         <li key={cafe.id} className="card">
                             <img
-                                src={cafe.img !== '' ? cafe.img : 'https://via.placeholder.com/150'}
+                                src={cafe.img?.trim() || 'https://via.placeholder.com/150'}
                                 alt={cafe.name}
                             />
                             <h2>{cafe.name}</h2>

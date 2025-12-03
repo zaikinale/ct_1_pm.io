@@ -22,16 +22,19 @@ const dataForFilter = [
 	},
 ];
 
-export default function FilterCafes() {
+export default function FilterCafes({ value, onChange }) {
+    const handleChange = (e) => {
+        onChange(e.target.value);
+    };
 
     return (
-        <select name="subway" id="subway">
-	        <option value="All">Все</option>
+        <select name="subway" id="subway" value={value} onChange={handleChange}>
+            <option value="All">Все</option>
             {dataForFilter.map(item => (
                 <option key={item.code} value={item.code}>
                     {item.name}
                 </option>
             ))}
         </select>
-    )
+    );
 }
