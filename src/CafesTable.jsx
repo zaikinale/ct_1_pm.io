@@ -1,5 +1,6 @@
 import { useState } from "react";
 import cafeData from '../__fixtures__/cafes.js';
+import FilterCafes from "./FilterCafes.jsx";
 
 export default function CafesTable() {
     const cafesPoints = cafeData.cafes;
@@ -7,6 +8,9 @@ export default function CafesTable() {
     return (
         <div id="container" className="container m-3">
             <div className="cafesTable">
+                <div class="controls">
+			        <FilterCafes />
+		        </div>
                 <ul className="cardsList">
                     {cafesPoints.map(cafe => (
                         <li key={cafe.id} className="card">
