@@ -25,9 +25,7 @@ export default function CafesTable() {
     return (
         <div id="container" className="container m-3">
             <div className="cafesTable">
-                <div className="controls">
-                    <FilterCafes value={selectedSubway} onChange={handleFilterChange} />
-                </div>
+                <FilterCafes value={selectedSubway} onChange={handleFilterChange} />
                 <ul className="cardsList">
                     {filteredCafes.map(cafe => (
                         <li key={cafe.id} className="card">
